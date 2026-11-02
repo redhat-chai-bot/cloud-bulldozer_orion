@@ -1,0 +1,42 @@
+# Upstream OVN-Kubernetes performance analysis.
+# Targets periodic CI jobs from the ovn-org/ovn-kubernetes repository.
+# OVN/OVS metrics are shared via upstream-ovnk-metrics.yaml.
+metricsFile: upstream-ovnk-metrics.yaml
+tests:
+  - name: upstream-ovnk-node-density
+    metadata:
+      platform: AWS
+      masterNodesType: m6a.xlarge
+      masterNodesCount: 3
+      workerNodesType: m6a.xlarge
+      workerNodesCount: 24
+      benchmark.keyword: node-density
+      wildcard:
+        ocpVersion: "{{ version }}*"
+      networkType: OVNKubernetes
+      jobType: "{{ jobtype | default('periodic') }}"
+      pullNumber: "{{ pull_number | default(0) }}"
+      organization: "{{ organization | default('ovn-org') }}"
+      repository: "{{ repository | default('ovn-kubernetes') }}"
+      fips: "{{ fips | default('false') }}"
+      not:
+        stream: okd
+
+  - name: upstream-ovnk-node-density-cni
+    metadata:
+      platform: AWS
+      masterNodesType: m6a.xlarge
+      masterNodesCount: 3
+      workerNodesType: m6a.xlarge
+      workerNodesCount: 24
+      benchmark.keyword: node-density-cni
+      wildcard:
+        ocpVersion: "{{ version }}*"
+      networkType: OVNKubernetes
+      jobType: "{{ jobtype | default('periodic') }}"
+      pullNumber: "{{ pull_number | default(0) }}"
+      organization: "{{ organization | default('ovn-org') }}"
+      repository: "{{ repository | default('ovn-kubernetes') }}"
+      fips: "{{ fips | default('false') }}"
+      not:
+        stream: okd
